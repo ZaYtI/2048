@@ -78,6 +78,7 @@ document.onkeydown = function(e) {
             break;
         case 40:
             FusionBasPossible(matrix)
+            AddInMatrix(matrix)
             break;
     }
 }
