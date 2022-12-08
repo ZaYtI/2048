@@ -1,0 +1,35 @@
+.container-grid{
+    width: 600px;
+    height: 600px;
+    background-color: #dedede;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    border: 5px solid black;
+    margin: auto auto;
+}
+
+.grid{
+    width: 100%;
+    display: flex;
+    flex: 1;
+}
+
+.cellule{
+    width: calc(800px/4);
+    height: 100%;
+    float: left;
+    border: 2px solid black;
+    position: relative;
+
+}
+
+h1{
+    padding: 0;
+    margin:0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all .8s ease-in-out;
+}
