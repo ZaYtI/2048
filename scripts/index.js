@@ -158,7 +158,7 @@ function FusionHautPossile(matrix){
                 if(matrix[i][j]!=0 && matrix[k][j]!=0 && k>i){
                     nb_voisins++
                 }
-                if(matrix[k][j]==matrix[i][j] && k>i && i<4){
+                if(matrix[i][j]!=0 && matrix[k][j]!=0 && matrix[k][j]==matrix[i][j] && k>i && i<4 && nb_voisins<=1){
                     matrix[i][j]=matrix[i][j]*2
                     matrix[k][j]=0
                     document.getElementById(`h1${i}${j}`).innerHTML=matrix[i][j]
@@ -202,5 +202,3 @@ function FusionBasPossible(matrix){
         }
     }
 }
-
-
