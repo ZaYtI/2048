@@ -87,17 +87,23 @@ document.onkeydown = function(e) {
 function FusionGauchePossible(matrix){
     for(let i=0;i<matrix.length;i++){
         for(let j=0;j<matrix.length;j++){
+            nb_voisins = 0
             for(let k=0;k<matrix.length;k++){
                 if(k==j && j<3){
                     k++
                 }
-                if(matrix[i][j]!=0 && matrix[i][k]==matrix[i][j] && k>j && j<4){
+                if(matrix[i][j]!=0 && matrix[i][k]!=0 && k>j){
+                    console.log(i,j,i,k)
+                    console.log(i,j,"jai",nb_voisins)
+                    nb_voisins ++
+                }
+                if(matrix[i][j]!=0 && matrix[i][k]!=0 && matrix[i][k]==matrix[i][j] && k>j && j<4 && nb_voisins<=1){
+                    console.log("je suis la")
                     matrix[i][j]=matrix[i][j]*2
                     matrix[i][k]=0
                     fusionDroiteGauche(i,j,k)
                 }
                 if(matrix[i][j]==0 && matrix[i][k]!=0 && k>j && j<4){
-                    console.log(i,j,i,k," ","+a un voisins de droite non null est lui est nul")
                     matrix[i][j]=matrix[i][k]
                     matrix[i][k]=0
                     fusionDroiteGauche(i,j,k)
@@ -111,11 +117,15 @@ function FusionGauchePossible(matrix){
 function FusionDroitePossible(matrix){
     for(let i=0;i<matrix.length;i++){
         for(let j=3;j>=0;j--){
+            nb_voisins = 0;
             for(let k=3;k>=0;k--){
                 if(k==j && j>0){
                     k--
                 }
-                if(matrix[i][j]!=0 && matrix[i][k]==matrix[i][j] && k<j && j>0){
+                if(matrix[i][j]!=0 && matrix[i][k]!=0 && k<j){
+                    nb_voisins ++
+                }
+                if(matrix[i][j]!=0 && matrix[i][k]!=0 && matrix[i][k]==matrix[i][j] && k<j && j>0 && nb_voisins<=1){
                     matrix[i][j]=matrix[i][j]*2
                     matrix[i][k]=0
                     fusionDroiteGauche(i,j,k)
@@ -140,11 +150,15 @@ function fusionDroiteGauche(i,j,k){
 function FusionHautPossile(matrix){
     for(let j=0;j<matrix.length;j++){
         for(let i=0;i<matrix.length;i++){
+            nb_voisins=0
             for(let k=0;k<matrix.length;k++){
                 if(k==i && i<3){
                     k++
                 }
-                if(matrix[i][j]!=0 && matrix[k][j]==matrix[i][j] && k>i && i<4){
+                if(matrix[i][j]!=0 && matrix[k][j]!=0 && k>i){
+                    nb_voisins++
+                }
+                if(matrix[k][j]==matrix[i][j] && k>i && i<4){
                     matrix[i][j]=matrix[i][j]*2
                     matrix[k][j]=0
                     document.getElementById(`h1${i}${j}`).innerHTML=matrix[i][j]
@@ -164,11 +178,15 @@ function FusionHautPossile(matrix){
 function FusionBasPossible(matrix){
     for(let j=0;j<matrix.length;j++){
         for(let i=3;i>=0;i--){
+            nb_voisins=0
             for(let k=3;k>=0;k--){
                 if(k==i && i>0){
                     k--
                 }
-                if(matrix[i][j]!=0 && matrix[k][j]==matrix[i][j] && k<i && i>0){
+                if(matrix[i][j]!=0 && matrix[k][j]!=0 && k<i){
+                    nb_voisins ++ 
+                }
+                if(matrix[i][j]!=0 && matrix[k][j]==matrix[i][j] && k<i && i>0 && nb_voisins<=1){
                     matrix[i][j]=matrix[i][j]*2
                     matrix[k][j]=0
                     document.getElementById(`h1${i}${j}`).innerHTML=matrix[i][j]
