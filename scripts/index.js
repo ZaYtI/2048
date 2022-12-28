@@ -15,6 +15,9 @@ const createMatrix = (size) => {
     return matrix   
 }
 const matrix = createMatrix(size)
+let score = 0
+let player_score  = document.getElementById("player_score")
+player_score.innerHTML = score
 
 
 function createTab(matrix){
@@ -34,7 +37,7 @@ function createTab(matrix){
             cellule.appendChild(number)
             grid.appendChild(cellule)
         }
-        tab.appendChild(grid)
+        tab.appendChild(grid, player_score)
     }
     document.body.appendChild(tab)
 }
@@ -44,7 +47,7 @@ function AddInMatrix(matrix){
     let j = getRandomElement();
     if(matrix[i][j]==0){
         let number = document.getElementById(`h1${i}${j}`)
-        matrix[i][j]=2;
+        matrix[i][j]=1024;
         document.getElementById(`${i}${j}`).style.backgroundColor = chooseColor(matrix[i][j])
         number.innerHTML = matrix[i][j]
         number.animate([
@@ -70,11 +73,17 @@ document.onkeydown = function(e) {
             if(nb!=0){
                 AddInMatrix(matrix)
             }
+            else{
+                loose()
+            }
             break;
         case 38:
             nb = FusionHautPossile(matrix)
             if(nb!=0){
                 AddInMatrix(matrix)
+            }
+            else{
+                loose()
             }
             break;
         case 39:
@@ -82,12 +91,18 @@ document.onkeydown = function(e) {
             if(nb!=0){
                 AddInMatrix(matrix)
             }
+            else{
+                loose()
+            }
             break;
         case 40:
             
             nb = FusionBasPossible(matrix)
             if(nb!=0){
                 AddInMatrix(matrix)
+            }
+            else{
+                loose()
             }
             break;
     }
@@ -104,17 +119,14 @@ function FusionGauchePossible(matrix){
                     k++
                 }
                 if(matrix[i][j]!=0 && matrix[i][k]!=0 && k>j){
-                    console.log(i,j,i,k)
-                    console.log(i,j,"jai",nb_voisins)
                     nb_voisins ++
                 }
                 if(matrix[i][j]!=0 && matrix[i][k]!=0 && matrix[i][k]==matrix[i][j] && k>j && j<4 && nb_voisins<=1){
-                    console.log("je suis la")
                     matrix[i][j]=matrix[i][j]*2
                     matrix[i][k]=0
-                    fusionDroiteGauche(i,j,k)
+                    score += matrix[i][j]
                     nb_fusion ++
-                    chooseColor(matrix[i][j])
+                    fusionDroiteGauche(i,j,k)
                 }
                 if(matrix[i][j]==0 && matrix[i][k]!=0 && k>j && j<4){
                     matrix[i][j]=matrix[i][k]
@@ -145,10 +157,10 @@ function FusionDroitePossible(matrix){
                     matrix[i][j]=matrix[i][j]*2
                     matrix[i][k]=0
                     nb_fusion++
+                    score += matrix[i][j]
                     fusionDroiteGauche(i,j,k)
                 }
                 if(matrix[i][j]==0 && matrix[i][k]!=0 && k<j && j>0){
-                    console.log(i,j,i,k," ","+a un voisins de droite non null est lui est nul")
                     matrix[i][j]=matrix[i][k]
                     matrix[i][k]=0
                     nb_fusion++
@@ -165,6 +177,7 @@ function fusionDroiteGauche(i,j,k){
     document.getElementById(`h1${i}${k}`).innerHTML=""
     document.getElementById(`${i}${j}`).style.backgroundColor=chooseColor(matrix[i][j])
     document.getElementById(`${i}${k}`).style.backgroundColor=chooseColor(matrix[i][k])
+    player_score.innerHTML = score
 }
 
 
@@ -184,6 +197,7 @@ function FusionHautPossile(matrix){
                     matrix[i][j]=matrix[i][j]*2
                     matrix[k][j]=0
                     nb_fusion++
+                    score += matrix[i][j]
                     FusionBasetHaut(i,j,k)
                 }
                 if(matrix[i][j]==0 && matrix[k][j]!=0 && k>i && i<4){
@@ -203,6 +217,7 @@ function FusionBasetHaut(i,j,k){
     document.getElementById(`h1${k}${j}`).innerHTML=""
     document.getElementById(`${i}${j}`).style.backgroundColor=chooseColor(matrix[i][j])
     document.getElementById(`${k}${j}`).style.backgroundColor=chooseColor(matrix[k][j])
+    player_score.innerHTML = score
 }
 
 function FusionBasPossible(matrix){
@@ -221,6 +236,7 @@ function FusionBasPossible(matrix){
                     matrix[i][j]=matrix[i][j]*2
                     matrix[k][j]=0
                     nb_fusion++
+                    score += matrix[i][j]
                     FusionBasetHaut(i,j,k)
                 }
                 if(matrix[i][j]==0 && matrix[k][j]!=0 && k<i && i>0){
@@ -275,5 +291,11 @@ function chooseColor(nb){
         default:
             return "rgb(205, 193, 180)"
             break
+    }
+}
+
+function loose(){
+    if(FusionBasPossible(matrix)==0 && FusionHautPossile(matrix)==0 && FusionDroitePossible(matrix)==0 && FusionGauchePossible(matrix)==0){
+        alert("You Loose")
     }
 }
