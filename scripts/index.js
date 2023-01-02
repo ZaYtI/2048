@@ -47,7 +47,7 @@ function AddInMatrix(matrix){
     let j = getRandomElement();
     if(matrix[i][j]==0){
         let number = document.getElementById(`h1${i}${j}`)
-        matrix[i][j]=1024;
+        matrix[i][j]=2;
         document.getElementById(`${i}${j}`).style.backgroundColor = chooseColor(matrix[i][j])
         number.innerHTML = matrix[i][j]
         number.animate([
