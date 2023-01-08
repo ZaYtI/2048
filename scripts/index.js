@@ -47,7 +47,13 @@ function AddInMatrix(matrix){
     let j = getRandomElement();
     if(matrix[i][j]==0){
         let number = document.getElementById(`h1${i}${j}`)
-        matrix[i][j]=2;
+        random = Math.random()
+        if(random<0.9){
+            matrix[i][j]=2;
+        }
+        else{
+            matrix[i][j]=4;
+        }
         document.getElementById(`${i}${j}`).style.backgroundColor = chooseColor(matrix[i][j])
         number.innerHTML = matrix[i][j]
         number.animate([
@@ -73,8 +79,11 @@ document.onkeydown = function(e) {
             if(nb!=0){
                 AddInMatrix(matrix)
             }
-            else{
-                loose()
+            else if(nb==0){
+                estPleine(matrix)
+                if(estPleine(matrix)==true){
+                    alert("Perdu")
+                }
             }
             break;
         case 38:
@@ -82,8 +91,11 @@ document.onkeydown = function(e) {
             if(nb!=0){
                 AddInMatrix(matrix)
             }
-            else{
-                loose()
+            else if(nb==0){
+                estPleine(matrix)
+                if(estPleine(matrix)==true){
+                    alert("Perdu")
+                }
             }
             break;
         case 39:
@@ -91,8 +103,11 @@ document.onkeydown = function(e) {
             if(nb!=0){
                 AddInMatrix(matrix)
             }
-            else{
-                loose()
+            else if(nb==0){
+                estPleine(matrix)
+                if(estPleine(matrix)==true){
+                    alert("Perdu")
+                }
             }
             break;
         case 40:
@@ -101,8 +116,11 @@ document.onkeydown = function(e) {
             if(nb!=0){
                 AddInMatrix(matrix)
             }
-            else{
-                loose()
+            else if(nb==0){
+                estPleine(matrix)
+                if(estPleine(matrix)==true){
+                    alert("Perdu")
+                }
             }
             break;
     }
@@ -288,14 +306,16 @@ function chooseColor(nb){
         case 2048:
             return "rgb(237, 194, 46)"
             break
-        default:
-            return "rgb(205, 193, 180)"
-            break
     }
 }
 
-function loose(){
-    if(FusionBasPossible(matrix)==0 && FusionHautPossile(matrix)==0 && FusionDroitePossible(matrix)==0 && FusionGauchePossible(matrix)==0){
-        alert("You Loose")
+function estPleine(matrix){
+    for(let i=0;i<matrix.length;i++){
+        for(let j=0;j<matrix.length;j++){
+            if(matrix[i][j]==0){
+                return false
+            }
+        }
     }
+    return true
 }
